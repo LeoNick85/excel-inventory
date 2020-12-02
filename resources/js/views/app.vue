@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <header-component></header-component>
+    <header-component :step="step"></header-component>
     <main>
         <step-one-component v-show="step == 1" v-on:step_forward="step_forward"></step-one-component>
         <step-two-component v-show="step == 2" v-on:step_forward="step_forward"></step-two-component>

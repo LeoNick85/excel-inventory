@@ -1923,8 +1923,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['step']
+});
 
 /***/ }),
 
@@ -19701,38 +19702,57 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("header", [
+    _c("div", { staticClass: "row" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("ul", { staticClass: "col-12 d-flex justify-content-between p-0" }, [
+        _c(
+          "li",
+          {
+            class:
+              _vm.step == 1
+                ? "col-4 p-3 text-center progress-active-blue"
+                : "col-4 p-3 text-center"
+          },
+          [_vm._v("1. Carica file")]
+        ),
+        _vm._v(" "),
+        _c(
+          "li",
+          {
+            class:
+              _vm.step == 2
+                ? "col-4 p-3 text-center progress-active-blue"
+                : "col-4 p-3 text-center"
+          },
+          [_vm._v("2. Applica sconto per categoria")]
+        ),
+        _vm._v(" "),
+        _c(
+          "li",
+          {
+            class:
+              _vm.step == 3
+                ? "col-4 p-3 text-center progress-active-blue"
+                : "col-4 p-3 text-center"
+          },
+          [_vm._v("3. Risultati")]
+        )
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("header", [
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          {
-            staticClass: "col-12 p-5 d-flex justify-content-center header-blue"
-          },
-          [_c("h1", [_vm._v("Calcolatore di sconti")])]
-        ),
-        _vm._v(" "),
-        _c("ul", { staticClass: "col-12 d-flex justify-content-between p-0" }, [
-          _c("li", { staticClass: "col-4 p-3 progress-active-blue" }, [
-            _vm._v("Carica file")
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "col-4 text-center p-3" }, [
-            _vm._v("Applica sconto per categoria")
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "col-4 text-right p-3" }, [
-            _vm._v("Risultati")
-          ])
-        ])
-      ])
-    ])
+    return _c(
+      "div",
+      { staticClass: "col-12 p-5 d-flex justify-content-center header-blue" },
+      [_c("h1", [_vm._v("Calcolatore di sconti")])]
+    )
   }
 ]
 render._withStripped = true
@@ -19855,7 +19875,7 @@ var render = function() {
     "div",
     { staticClass: "container-fluid" },
     [
-      _c("header-component"),
+      _c("header-component", { attrs: { step: _vm.step } }),
       _vm._v(" "),
       _c(
         "main",

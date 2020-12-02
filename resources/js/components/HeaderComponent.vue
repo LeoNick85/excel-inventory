@@ -5,17 +5,16 @@
                 <h1>Calcolatore di sconti</h1>
             </div>            
             <ul class="col-12 d-flex justify-content-between p-0">
-                <li class="col-4 p-3 progress-active-blue">Carica file</li>
-                <li class="col-4 text-center p-3">Applica sconto per categoria</li>
-                <li class="col-4 text-right p-3">Risultati</li>
+                <li :class="(step == 1) ? 'col-4 p-3 text-center progress-active-blue' : 'col-4 p-3 text-center'">1. Carica file</li>
+                <li :class="(step == 2) ? 'col-4 p-3 text-center progress-active-blue' : 'col-4 p-3 text-center'">2. Applica sconto per categoria</li>
+                <li :class="(step == 3) ? 'col-4 p-3 text-center progress-active-blue' : 'col-4 p-3 text-center'">3. Risultati</li>
             </ul>
-        </div>
-        
+        </div>        
     </header>
 </template>
 
 <script>
 export default {
-    
+    props: ['step']
 }
 </script>

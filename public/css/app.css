@@ -1,11 +1,17 @@
 .header-blue {
-    background-color: darkblue;
+    background-color: #0066cc;
     color: white;
 }
 
 .progress-active-blue {
-    background-color: blue;
+    background-color: #5c6f82;
     color: white;
+}
+
+.progress-inactive-blue {
+    color: #5c6f82;
+    background-color: white;
+    border: 1px solid #5c6f82;
 }
 
 ul {

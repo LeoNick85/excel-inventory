@@ -2,9 +2,9 @@
   <div class="container-fluid">
     <header-component :step="step"></header-component>
     <main>
-        <step-one-component v-show="step == 1" v-on:step_forward="step_forward"></step-one-component>
-        <step-two-component v-show="step == 2" v-on:step_forward="step_forward"></step-two-component>
-        <step-three-component v-show="step == 3" ></step-three-component>
+        <step-one-component v-if="step == 1" v-on:step_forward="step_forward"></step-one-component>
+        <step-two-component v-if="step == 2" v-on:step_forward="step_forward"></step-two-component>
+        <step-three-component v-if="step == 3" ></step-three-component>
     </main>
   </div>
 </template>

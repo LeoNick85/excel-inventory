@@ -1946,10 +1946,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      error: {},
+      import_file: ''
+    };
+  },
   methods: {
-    emit: function emit() {
-      this.$emit('step_forward', 2);
+    onFileChange: function onFileChange(e) {
+      console.log('file cambiato');
+      this.import_file = e.target.files[0];
+    },
+    proceedAction: function proceedAction() {
+      var _this = this;
+
+      console.log('bottone premuto');
+      var formData = new FormData();
+      formData.append('import_file', this.import_file);
+      axios.post('api/upload', formData, {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      }).then(function (response) {
+        if (response.status === 200) {
+          console.log(response.data.excel);
+        }
+      })["catch"](function (error) {
+        // code here when an upload is not valid
+        _this.uploading = false;
+        _this.error = error.response.data;
+        console.log('check error: ', _this.error);
+      });
     }
   }
 });
@@ -1993,11 +2024,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      categories_loaded: false
+    };
+  },
   methods: {
     emit: function emit() {
       this.$emit('step_forward', 3);
     }
+  },
+  mounted: function mounted() {
+    this.categories_loaded = false;
   }
 });
 
@@ -19713,7 +19759,7 @@ var render = function() {
             class:
               _vm.step == 1
                 ? "col-4 p-3 text-center progress-active-blue"
-                : "col-4 p-3 text-center"
+                : "col-4 p-3 text-center progress-inactive-blue"
           },
           [_vm._v("1. Carica file")]
         ),
@@ -19724,7 +19770,7 @@ var render = function() {
             class:
               _vm.step == 2
                 ? "col-4 p-3 text-center progress-active-blue"
-                : "col-4 p-3 text-center"
+                : "col-4 p-3 text-center progress-inactive-blue"
           },
           [_vm._v("2. Applica sconto per categoria")]
         ),
@@ -19735,7 +19781,7 @@ var render = function() {
             class:
               _vm.step == 3
                 ? "col-4 p-3 text-center progress-active-blue"
-                : "col-4 p-3 text-center"
+                : "col-4 p-3 text-center progress-inactive-blue"
           },
           [_vm._v("3. Risultati")]
         )
@@ -19750,7 +19796,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "div",
-      { staticClass: "col-12 p-5 d-flex justify-content-center header-blue" },
+      { staticClass: "col-12 p-4 d-flex justify-content-center header-blue" },
       [_c("h1", [_vm._v("Calcolatore di sconti")])]
     )
   }
@@ -19779,9 +19825,32 @@ var render = function() {
   return _c("div", [
     _c("h2", [_vm._v("Carica il file")]),
     _vm._v(" "),
-    _c("div"),
+    _c(
+      "label",
+      {
+        staticClass: "form-control-label",
+        attrs: { for: "input-file-import" }
+      },
+      [_vm._v("Upload Excel File")]
+    ),
     _vm._v(" "),
-    _c("button", { on: { click: _vm.emit } }, [_vm._v("Salva")])
+    _c("input", {
+      ref: "import_file",
+      staticClass: "form-control",
+      class: { " is-invalid": _vm.error.message },
+      attrs: { type: "file", id: "input-file-import", name: "file_import" },
+      on: { change: _vm.onFileChange }
+    }),
+    _vm._v(" "),
+    _vm.error.message
+      ? _c("div", { staticClass: "invalid-feedback" })
+      : _vm._e(),
+    _vm._v(" "),
+    _c(
+      "button",
+      { staticClass: "btn btn-primary", on: { click: _vm.proceedAction } },
+      [_vm._v("Salva")]
+    )
   ])
 }
 var staticRenderFns = []
@@ -19841,12 +19910,24 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "blue" }, [
-    _c("h2", [_vm._v("Applica sconto per categoria")]),
-    _vm._v(" "),
-    _c("div"),
-    _vm._v(" "),
-    _c("button", { on: { click: _vm.emit } }, [_vm._v("Salva")])
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("h2", { staticClass: "text-center p-2" }, [
+        _vm._v("Applica sconto per categoria")
+      ]),
+      _vm._v(" "),
+      _vm.loaded
+        ? _c("div")
+        : _c("div", { staticClass: "text-center p-2" }, [
+            _vm._v("In caricamento")
+          ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        { staticClass: "btn btn-primary", on: { click: _vm.emit } },
+        [_vm._v("Salva")]
+      )
+    ])
   ])
 }
 var staticRenderFns = []
@@ -19880,40 +19961,19 @@ var render = function() {
       _c(
         "main",
         [
-          _c("step-one-component", {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: _vm.step == 1,
-                expression: "step == 1"
-              }
-            ],
-            on: { step_forward: _vm.step_forward }
-          }),
+          _vm.step == 1
+            ? _c("step-one-component", {
+                on: { step_forward: _vm.step_forward }
+              })
+            : _vm._e(),
           _vm._v(" "),
-          _c("step-two-component", {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: _vm.step == 2,
-                expression: "step == 2"
-              }
-            ],
-            on: { step_forward: _vm.step_forward }
-          }),
+          _vm.step == 2
+            ? _c("step-two-component", {
+                on: { step_forward: _vm.step_forward }
+              })
+            : _vm._e(),
           _vm._v(" "),
-          _c("step-three-component", {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: _vm.step == 3,
-                expression: "step == 3"
-              }
-            ]
-          })
+          _vm.step == 3 ? _c("step-three-component") : _vm._e()
         ],
         1
       )
@@ -32439,15 +32499,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!************************************!*\
   !*** ./resources/js/views/app.vue ***!
   \************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_vue_vue_type_template_id_53f13272___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app.vue?vue&type=template&id=53f13272& */ "./resources/js/views/app.vue?vue&type=template&id=53f13272&");
 /* harmony import */ var _app_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app.vue?vue&type=script&lang=js& */ "./resources/js/views/app.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _app_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _app_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -32477,7 +32536,7 @@ component.options.__file = "resources/js/views/app.vue"
 /*!*************************************************************!*\
   !*** ./resources/js/views/app.vue?vue&type=script&lang=js& ***!
   \*************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

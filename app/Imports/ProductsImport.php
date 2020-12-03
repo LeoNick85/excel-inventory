@@ -5,6 +5,7 @@ namespace App\Imports;
 use App\Models\Product;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use App\Helper\Helper;
 
 class ProductsImport implements ToModel, WithHeadingRow
 {
@@ -15,9 +16,12 @@ class ProductsImport implements ToModel, WithHeadingRow
     */
     public function model(array $row)
     {
-        return new Product([
-            'name' => $row['nome_prodotto'],
-            'price' => $row['prezzo'],
-        ]);
+        if ($row['nome_prodotto']!="Pianoforte Yamaha C3") {
+            return new Product([
+                'category_id'=> Helper::setCategory($row['categoria']),
+                'name' => $row['nome_prodotto'],
+                'price' => Helper::setPrice($row['prezzo']),
+            ]);
+        }        
     }
 }

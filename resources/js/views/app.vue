@@ -27,7 +27,7 @@ export default {
   data() {
       return {
           message:'Hello World',
-          step: 1,
+          step: 2,
       }
   },
   methods: {

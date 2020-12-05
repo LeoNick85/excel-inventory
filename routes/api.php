@@ -15,3 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/upload','App\Http\Controllers\ProductsController@import');
+
+Route::post('/category-list','App\Http\Controllers\CategoriesController@categoriesList');
+
+Route::post('/category-update','App\Http\Controllers\CategoriesController@categoriesUpdate');

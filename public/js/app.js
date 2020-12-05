@@ -2039,19 +2039,82 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      categories_loaded: false
+      categories_list: [],
+      n_categories: 0,
+      n_discount: 0,
+      categories_loaded: false,
+      formData: {
+        category_id: [],
+        category_rate: []
+      }
     };
   },
   methods: {
     emit: function emit() {
       this.$emit('step_forward', 3);
+    },
+    loadingCategoriesList: function loadingCategoriesList() {
+      var _this = this;
+
+      var thisComponent = this;
+      axios.post('api/category-list').then(function (response) {
+        if (response.status === 200) {
+          console.log(response.data.categories_list);
+          thisComponent.categories_list = response.data.categories_list;
+          thisComponent.n_categories = thisComponent.categories_list.length;
+          thisComponent.categories_loaded = true;
+        }
+      })["catch"](function (error) {
+        // code here when an upload is not valid
+        _this.uploading = false;
+        _this.error = error.response.data;
+        console.log('check error: ', _this.error);
+      });
+    },
+    processForm: function processForm() {
+      var _this2 = this;
+
+      axios.post('api/category-update', {
+        data: this.formData
+      }).then(function (response) {
+        if (response.status === 200) {
+          console.log('form spedito');
+          console.log(response);
+        }
+      })["catch"](function (error) {
+        // code here when an upload is not valid
+        _this2.uploading = false;
+        _this2.error = error.response.data;
+        console.log('check error: ', _this2.error);
+        alert('Caricamento file non riuscito');
+      });
+      ;
     }
   },
   mounted: function mounted() {
-    this.categories_loaded = false;
+    console.log("Init step 2");
+    this.loadingCategoriesList();
   }
 });
 
@@ -2096,7 +2159,7 @@ var default_layout = "default";
   data: function data() {
     return {
       message: 'Hello World',
-      step: 1
+      step: 2
     };
   },
   methods: {
@@ -19929,23 +19992,172 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
+  return _c("div", { staticClass: "container-fluid" }, [
     _c("div", { staticClass: "row" }, [
-      _c("h2", { staticClass: "text-center p-2" }, [
+      _c("h2", { staticClass: "text-center p-2 col-12" }, [
         _vm._v("Applica sconto per categoria")
       ]),
       _vm._v(" "),
       _vm.categories_loaded
-        ? _c("div")
-        : _c("div", { staticClass: "text-center p-2" }, [
+        ? _c("div", { staticClass: "col-10 offset-1" }, [
+            _vm.n_discount == 0
+              ? _c("div", [
+                  _c("h3", [
+                    _vm._v("Scegli il numero di categorie da scontare")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.n_discount,
+                          expression: "n_discount"
+                        }
+                      ],
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.n_discount = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "0" } }, [_vm._v("0")]),
+                      _vm._v(" "),
+                      _vm._l(_vm.n_categories, function(n, index) {
+                        return _c(
+                          "option",
+                          { domProps: { value: index + 1 } },
+                          [_vm._v(_vm._s(index + 1))]
+                        )
+                      })
+                    ],
+                    2
+                  )
+                ])
+              : _c(
+                  "div",
+                  _vm._l(_vm.n_discount, function(n, index) {
+                    return _c("div", { staticClass: "mt-2 mb-2" }, [
+                      _c("h5", [_vm._v("Categoria N°" + _vm._s(index + 1))]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "d-flex justify-content-between" },
+                        [
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.formData.category_id[index],
+                                  expression: "formData.category_id[index]"
+                                }
+                              ],
+                              staticClass: "col-7",
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.formData.category_id,
+                                    index,
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c("option", { attrs: { disabled: "" } }, [
+                                _vm._v("Scegli la categoria")
+                              ]),
+                              _vm._v(" "),
+                              _vm._l(_vm.categories_list, function(category) {
+                                return _c(
+                                  "option",
+                                  { domProps: { value: category.id } },
+                                  [_vm._v(_vm._s(category.name))]
+                                )
+                              })
+                            ],
+                            2
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-3 d-flex" }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model.number",
+                                  value: _vm.formData.category_rate[index],
+                                  expression: "formData.category_rate[index]",
+                                  modifiers: { number: true }
+                                }
+                              ],
+                              attrs: { type: "number", max: "99.99" },
+                              domProps: {
+                                value: _vm.formData.category_rate[index]
+                              },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.formData.category_rate,
+                                    index,
+                                    _vm._n($event.target.value)
+                                  )
+                                },
+                                blur: function($event) {
+                                  return _vm.$forceUpdate()
+                                }
+                              }
+                            }),
+                            _c("span", [_vm._v("%")])
+                          ])
+                        ]
+                      )
+                    ])
+                  }),
+                  0
+                ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary mt-2",
+                on: { click: _vm.processForm }
+              },
+              [_vm._v("Salva")]
+            )
+          ])
+        : _c("div", { staticClass: "text-center p-2 mt-2" }, [
             _vm._v("In caricamento")
-          ]),
-      _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "btn btn-primary", on: { click: _vm.emit } },
-        [_vm._v("Salva")]
-      )
+          ])
     ])
   ])
 }

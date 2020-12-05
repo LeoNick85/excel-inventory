@@ -6,6 +6,9 @@ use App\Imports\ProductsImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class ProductsController extends Controller
 {
@@ -32,12 +35,27 @@ class ProductsController extends Controller
         $searchText = $data['search'];
         $searchOrder = $data['order'];
 
-        $results = Product::where('name', 'like', "%{$searchText}%" )->orWhere('id', 'like',"%{$searchText}%")->get();
+        $queryResults = Product::with('category')->where('name', 'like', "%{$searchText}%" )->orWhere('id', 'like',"%{$searchText}%")->get();
+
+        $finalResults = array();
+
+        foreach ($queryResults as $key=>$value){
+            array_push($finalResults, array(
+                'id' =>  $value->id,
+                'name' => $value->name,
+                'price' => $value->price,
+                'category' => $value->category->name,
+                'discount_rate' => $value->category->discount_rate,
+                'discount_price' => ($value->price*(100-$value->category->discount_rate) /100)
+            ));
+        };
+
+        $orderedResults = collect($finalResults)->sortBy($searchOrder)->chunk(1)->flatten(1);
 
         return response()->json(
             [
                 'message' => 'search completed',
-                'data'=> $results
+                'data'=> $orderedResults
             ],
             200);
     }

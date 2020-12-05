@@ -17,22 +17,25 @@
         </div>
         <div>
             <div v-if="searchStarted">
-                <tr>
-                    <th>Codice prodotto</th>
-                    <th>Nome prodotto</th>
-                    <th>Categoria</th>
-                    <th>Prezzo</th>
-                    <th>% sconto</th>
-                    <th>Prezzo scontato</th>
-                </tr>
-                <tr>
-                    <td>112</td>
-                    <td>Piano</td>
-                    <td>INFORMATICA</td>
-                    <td>2333€</td>
-                    <td>13.50%</td>
-                    <td>2110€</td>
-                </tr>
+                <table>
+                    <tr>
+                        <th>Codice prodotto</th>
+                        <th>Nome prodotto</th>
+                        <th>Categoria</th>
+                        <th>Prezzo</th>
+                        <th>% sconto</th>
+                        <th>Prezzo scontato</th>
+                    </tr>
+                    <tr>
+                        <td>112</td>
+                        <td>Piano</td>
+                        <td>INFORMATICA</td>
+                        <td>2333€</td>
+                        <td>13.50%</td>
+                        <td>2110€</td>
+                    </tr>
+                </table>
+                
             </div>
         </div>
     </div>

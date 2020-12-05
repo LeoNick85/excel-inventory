@@ -1949,11 +1949,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       error: {},
-      import_file: ''
+      import_file: '',
+      uploading: false
     };
   },
   methods: {
@@ -1964,6 +1970,7 @@ __webpack_require__.r(__webpack_exports__);
     proceedAction: function proceedAction() {
       var _this = this;
 
+      this.uploading = true;
       console.log('bottone premuto');
       var formData = new FormData();
       formData.append('import_file', this.import_file);
@@ -1973,13 +1980,14 @@ __webpack_require__.r(__webpack_exports__);
         }
       }).then(function (response) {
         if (response.status === 200) {
-          console.log(response.data.excel);
+          _this.$emit('step_forward', 2);
         }
       })["catch"](function (error) {
         // code here when an upload is not valid
         _this.uploading = false;
         _this.error = error.response.data;
         console.log('check error: ', _this.error);
+        alert('Caricamento file non riuscito');
       });
     }
   }
@@ -19825,32 +19833,43 @@ var render = function() {
   return _c("div", [
     _c("h2", [_vm._v("Carica il file")]),
     _vm._v(" "),
-    _c(
-      "label",
-      {
-        staticClass: "form-control-label",
-        attrs: { for: "input-file-import" }
-      },
-      [_vm._v("Upload Excel File")]
-    ),
-    _vm._v(" "),
-    _c("input", {
-      ref: "import_file",
-      staticClass: "form-control",
-      class: { " is-invalid": _vm.error.message },
-      attrs: { type: "file", id: "input-file-import", name: "file_import" },
-      on: { change: _vm.onFileChange }
-    }),
-    _vm._v(" "),
-    _vm.error.message
-      ? _c("div", { staticClass: "invalid-feedback" })
-      : _vm._e(),
-    _vm._v(" "),
-    _c(
-      "button",
-      { staticClass: "btn btn-primary", on: { click: _vm.proceedAction } },
-      [_vm._v("Salva")]
-    )
+    _vm.uploading
+      ? _c("div", [_vm._v("\n        File in caricamento\n    ")])
+      : _c("div", [
+          _c(
+            "label",
+            {
+              staticClass: "form-control-label",
+              attrs: { for: "input-file-import" }
+            },
+            [_vm._v("Scegli il file da caricare")]
+          ),
+          _vm._v(" "),
+          _c("input", {
+            ref: "import_file",
+            staticClass: "form-control",
+            class: { " is-invalid": _vm.error.message },
+            attrs: {
+              type: "file",
+              id: "input-file-import",
+              name: "file_import"
+            },
+            on: { change: _vm.onFileChange }
+          }),
+          _vm._v(" "),
+          _vm.error.message
+            ? _c("div", { staticClass: "invalid-feedback" })
+            : _vm._e(),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary",
+              on: { click: _vm.proceedAction }
+            },
+            [_vm._v("Salva e procedi")]
+          )
+        ])
   ])
 }
 var staticRenderFns = []
@@ -19916,7 +19935,7 @@ var render = function() {
         _vm._v("Applica sconto per categoria")
       ]),
       _vm._v(" "),
-      _vm.loaded
+      _vm.categories_loaded
         ? _c("div")
         : _c("div", { staticClass: "text-center p-2" }, [
             _vm._v("In caricamento")

@@ -1,11 +1,16 @@
 <template>
     <div>
         <h2>Carica il file</h2>
-        <label class="form-control-label"  for="input-file-import">Upload Excel File</label>
-          <input type="file" class="form-control" :class="{ ' is-invalid' : error.message }" id="input-file-import" name="file_import" ref="import_file"  @change="onFileChange">
-          <div v-if="error.message" class="invalid-feedback">
+        <div v-if="uploading">
+            File in caricamento
         </div>
-        <button class="btn btn-primary" v-on:click="proceedAction">Salva</button>
+        <div v-else>
+            <label class="form-control-label"  for="input-file-import">Scegli il file da caricare</label>
+            <input type="file" class="form-control" :class="{ ' is-invalid' : error.message }" id="input-file-import" name="file_import" ref="import_file"  @change="onFileChange">
+            <div v-if="error.message" class="invalid-feedback">
+            </div>
+            <button class="btn btn-primary" v-on:click="proceedAction">Salva e procedi</button>
+        </div>
     </div>
 </template>
 
@@ -15,6 +20,7 @@ export default {
         return {
           error: {},
           import_file: '',
+          uploading: false
         }
       },
     methods: {
@@ -24,6 +30,7 @@ export default {
             this.import_file = e.target.files[0];
 	    },
         proceedAction() {
+            this.uploading = true;
             console.log('bottone premuto');
             let formData = new FormData();
             formData.append('import_file', this.import_file);
@@ -33,14 +40,15 @@ export default {
                 })
                 .then(response => {
                     if(response.status === 200) {
-                        console.log(response.data.excel);
+                        this.$emit('step_forward', 2);
                     }
                 })
                 .catch(error => {
                     // code here when an upload is not valid
-                    this.uploading = false
-                    this.error = error.response.data
-                    console.log('check error: ', this.error)
+                    this.uploading = false;
+                    this.error = error.response.data;
+                    console.log('check error: ', this.error);
+                    alert('Caricamento file non riuscito');
                 });            
         },
       }

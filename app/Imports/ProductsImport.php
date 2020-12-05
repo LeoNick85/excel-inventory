@@ -16,7 +16,8 @@ class ProductsImport implements ToModel, WithHeadingRow
     */
     public function model(array $row)
     {
-        if ($row['nome_prodotto']!="Pianoforte Yamaha C3") {
+        $existingProduct = Product::where('name', $row['nome_prodotto'])->get()->count();
+        if ($existingProduct == 0) {
             return new Product([
                 'category_id'=> Helper::setCategory($row['categoria']),
                 'name' => $row['nome_prodotto'],

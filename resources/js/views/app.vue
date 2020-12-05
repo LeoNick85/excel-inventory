@@ -26,8 +26,7 @@ export default {
   computed: {},
   data() {
       return {
-          message:'Hello World',
-          step: 2,
+          step: 3
       }
   },
   methods: {

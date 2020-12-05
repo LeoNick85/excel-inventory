@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Imports\ProductsImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class ProductsController extends Controller
 {
@@ -23,5 +24,21 @@ class ProductsController extends Controller
                                     'excel'=> $data
                                 ],
                                 200);
+    }
+
+    public function search(Request $request)
+    {
+        $data = $request->input('data');
+        $searchText = $data['search'];
+        $searchOrder = $data['order'];
+
+        $results = Product::where('name', 'like', "%{$searchText}%" )->orWhere('id', 'like',"%{$searchText}%")->get();
+
+        return response()->json(
+            [
+                'message' => 'search completed',
+                'data'=> $results
+            ],
+            200);
     }
 }

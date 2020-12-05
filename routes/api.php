@@ -14,8 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Route to upload data through Excel import
 Route::post('/upload','App\Http\Controllers\ProductsController@import');
 
+//Route to receive the list of available categories
 Route::post('/category-list','App\Http\Controllers\CategoriesController@categoriesList');
 
+//Route to update catogories with new discount rates
 Route::post('/category-update','App\Http\Controllers\CategoriesController@categoriesUpdate');
+
+//Route to search products via name or product code
+Route::post('/search','App\Http\Controllers\ProductsController@search');

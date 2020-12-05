@@ -2011,7 +2011,73 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      formData: {
+        search: '',
+        order: 'name'
+      },
+      searchStarted: false
+    };
+  },
+  methods: {
+    search: function search() {
+      var _this = this;
+
+      this.searchStarted = true;
+      axios.post('api/search', {
+        data: this.formData
+      }).then(function (response) {
+        console.log('risultati ricevuti');
+        console.log(response);
+      })["catch"](function (error) {
+        // code here when an upload is not valid
+        _this.uploading = false;
+        _this.error = error.response.data;
+        console.log('check error: ', _this.error);
+        alert('Ricerca non riuscita');
+      });
+      ;
+    }
+  },
+  mounted: function mounted() {
+    console.log("Init step 3");
+  }
+});
 
 /***/ }),
 
@@ -2101,6 +2167,8 @@ __webpack_require__.r(__webpack_exports__);
         if (response.status === 200) {
           console.log('form spedito');
           console.log(response);
+
+          _this2.$emit('step_forward', 3);
         }
       })["catch"](function (error) {
         // code here when an upload is not valid
@@ -2158,8 +2226,7 @@ var default_layout = "default";
   computed: {},
   data: function data() {
     return {
-      message: 'Hello World',
-      step: 2
+      step: 3
     };
   },
   methods: {
@@ -19957,17 +20024,162 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "p-5" }, [
+    _c("h2", [_vm._v("Risultati")]),
+    _vm._v(" "),
+    _c("div", [
+      _c("label", { attrs: { for: "search" } }, [_vm._v("Cerca prodotto")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.formData.search,
+            expression: "formData.search"
+          }
+        ],
+        attrs: { type: "text", name: "search" },
+        domProps: { value: _vm.formData.search },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.$set(_vm.formData, "search", $event.target.value)
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("fieldset", [
+        _c("legend", [_vm._v("Ordina per:")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.formData.order,
+              expression: "formData.order"
+            }
+          ],
+          attrs: { type: "radio", id: "name", name: "order", value: "name" },
+          domProps: { checked: _vm._q(_vm.formData.order, "name") },
+          on: {
+            change: function($event) {
+              return _vm.$set(_vm.formData, "order", "name")
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("label", { attrs: { for: "name" } }, [_vm._v("A-Z")]),
+        _c("br"),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.formData.order,
+              expression: "formData.order"
+            }
+          ],
+          attrs: { type: "radio", id: "price", name: "order", value: "price" },
+          domProps: { checked: _vm._q(_vm.formData.order, "price") },
+          on: {
+            change: function($event) {
+              return _vm.$set(_vm.formData, "order", "price")
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("label", { attrs: { for: "price" } }, [_vm._v("Prezzo")]),
+        _c("br"),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.formData.order,
+              expression: "formData.order"
+            }
+          ],
+          attrs: {
+            type: "radio",
+            id: "discount_rate",
+            name: "order",
+            value: "discount_rate"
+          },
+          domProps: { checked: _vm._q(_vm.formData.order, "discount_rate") },
+          on: {
+            change: function($event) {
+              return _vm.$set(_vm.formData, "order", "discount_rate")
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("label", { attrs: { for: "discount_rate" } }, [
+          _vm._v("Percentuale sconto")
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary",
+          on: {
+            click: function($event) {
+              return _vm.search()
+            }
+          }
+        },
+        [_vm._v("Avvia ricerca")]
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", [
+      _vm.searchStarted
+        ? _c("div", [_vm._m(0), _vm._v(" "), _vm._m(1)])
+        : _vm._e()
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "p-5" }, [
-      _c("h2", [_vm._v("Risultati")]),
+    return _c("tr", [
+      _c("th", [_vm._v("Codice prodotto")]),
       _vm._v(" "),
-      _c("div")
+      _c("th", [_vm._v("Nome prodotto")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Categoria")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Prezzo")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("% sconto")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Prezzo scontato")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td", [_vm._v("112")]),
+      _vm._v(" "),
+      _c("td", [_vm._v("Piano")]),
+      _vm._v(" "),
+      _c("td", [_vm._v("INFORMATICA")]),
+      _vm._v(" "),
+      _c("td", [_vm._v("2333€")]),
+      _vm._v(" "),
+      _c("td", [_vm._v("13.50%")]),
+      _vm._v(" "),
+      _c("td", [_vm._v("2110€")])
     ])
   }
 ]

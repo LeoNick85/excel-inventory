@@ -74,6 +74,7 @@ export default {
                     if(response.status === 200) {
                         console.log('form spedito');
                         console.log(response);
+                        this.$emit('step_forward', 3);
                     }
                 })
                 .catch(error => {

@@ -16,7 +16,7 @@
                         <div class="d-flex justify-content-between">
                             <select class="col-7" v-model="formData.category_id[index]">
                                 <option disabled>Scegli la categoria</option>
-                                <option v-for="category in categories_list" :value="category.id">{{category.name}}</option>
+                                <option v-for="category in categories_list" :value="category.id"  v-show="isSelected(category.id)">{{category.name}}</option>
                             </select>
                             <div class="col-3 d-flex">
                                 <input type="number" max="99.99" v-model.number="formData.category_rate[index]"><span>%</span>
@@ -48,6 +48,12 @@ export default {
     methods: {
 		emit: function() {
 			this.$emit('step_forward', 3)
+        },
+        isSelected(category) {
+            if(this.formData.category_id.includes(category)){
+                return false;
+            }
+            return true;
         },
         loadingCategoriesList() {
             let thisComponent = this;

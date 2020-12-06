@@ -55,7 +55,7 @@ class ProductsController extends Controller
         return response()->json(
             [
                 'message' => 'search completed',
-                'data'=> $orderedResults
+                'results'=> $orderedResults
             ],
             200);
     }

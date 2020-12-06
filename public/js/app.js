@@ -2047,6 +2047,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2054,6 +2056,7 @@ __webpack_require__.r(__webpack_exports__);
         search: '',
         order: 'name'
       },
+      results: '',
       searchStarted: false
     };
   },
@@ -2062,11 +2065,13 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.searchStarted = true;
+      var thisComponent = this;
       axios.post('api/search', {
         data: this.formData
       }).then(function (response) {
         console.log('risultati ricevuti');
         console.log(response);
+        thisComponent.results = response.data.results;
       })["catch"](function (error) {
         // code here when an upload is not valid
         _this.uploading = false;
@@ -2142,6 +2147,13 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     emit: function emit() {
       this.$emit('step_forward', 3);
+    },
+    isSelected: function isSelected(category) {
+      if (this.formData.category_id.includes(category)) {
+        return false;
+      }
+
+      return true;
     },
     loadingCategoriesList: function loadingCategoriesList() {
       var _this = this;
@@ -2229,7 +2241,7 @@ var default_layout = "default";
   computed: {},
   data: function data() {
     return {
-      step: 3
+      step: 2
     };
   },
   methods: {
@@ -20124,6 +20136,33 @@ var render = function() {
         _vm._v(" "),
         _c("label", { attrs: { for: "discount_rate" } }, [
           _vm._v("Percentuale sconto")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.formData.order,
+              expression: "formData.order"
+            }
+          ],
+          attrs: {
+            type: "radio",
+            id: "discount_price",
+            name: "order",
+            value: "discount_price"
+          },
+          domProps: { checked: _vm._q(_vm.formData.order, "discount_price") },
+          on: {
+            change: function($event) {
+              return _vm.$set(_vm.formData, "order", "discount_price")
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("label", { attrs: { for: "discount_rate" } }, [
+          _vm._v("Prezzo scontato")
         ])
       ]),
       _vm._v(" "),
@@ -20141,7 +20180,35 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
-    _c("div", [_vm.searchStarted ? _c("div", [_vm._m(0)]) : _vm._e()])
+    _c("div", [
+      _vm.searchStarted
+        ? _c("div", [
+            _c(
+              "table",
+              [
+                _vm._m(0),
+                _vm._v(" "),
+                _vm._l(_vm.results, function(result) {
+                  return _c("tr", [
+                    _c("td", [_vm._v(_vm._s(result.id))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(result.name))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(result.category))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(result.price) + "€")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(result.discount_rate) + "%")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(result.discount_price) + "€")])
+                  ])
+                })
+              ],
+              2
+            )
+          ])
+        : _vm._e()
+    ])
   ])
 }
 var staticRenderFns = [
@@ -20149,34 +20216,18 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("table", [
-      _c("tr", [
-        _c("th", [_vm._v("Codice prodotto")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Nome prodotto")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Categoria")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Prezzo")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("% sconto")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Prezzo scontato")])
-      ]),
+    return _c("tr", [
+      _c("th", [_vm._v("Codice prodotto")]),
       _vm._v(" "),
-      _c("tr", [
-        _c("td", [_vm._v("112")]),
-        _vm._v(" "),
-        _c("td", [_vm._v("Piano")]),
-        _vm._v(" "),
-        _c("td", [_vm._v("INFORMATICA")]),
-        _vm._v(" "),
-        _c("td", [_vm._v("2333€")]),
-        _vm._v(" "),
-        _c("td", [_vm._v("13.50%")]),
-        _vm._v(" "),
-        _c("td", [_vm._v("2110€")])
-      ])
+      _c("th", [_vm._v("Nome prodotto")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Categoria")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Prezzo")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("% sconto")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Prezzo scontato")])
     ])
   }
 ]
@@ -20307,7 +20358,17 @@ var render = function() {
                               _vm._l(_vm.categories_list, function(category) {
                                 return _c(
                                   "option",
-                                  { domProps: { value: category.id } },
+                                  {
+                                    directives: [
+                                      {
+                                        name: "show",
+                                        rawName: "v-show",
+                                        value: _vm.isSelected(category.id),
+                                        expression: "isSelected(category.id)"
+                                      }
+                                    ],
+                                    domProps: { value: category.id }
+                                  },
                                   [_vm._v(_vm._s(category.name))]
                                 )
                               })

@@ -12,6 +12,8 @@
                 <label for="price">Prezzo</label><br>
                 <input type="radio" id="discount_rate" name="order" value="discount_rate" v-model="formData.order">
                 <label for="discount_rate">Percentuale sconto</label>
+                <input type="radio" id="discount_price" name="order" value="discount_price" v-model="formData.order">
+                <label for="discount_rate">Prezzo scontato</label>
             </fieldset>
             <button class="btn btn-primary" @click="search()">Avvia ricerca</button>
         </div>
@@ -26,13 +28,13 @@
                         <th>% sconto</th>
                         <th>Prezzo scontato</th>
                     </tr>
-                    <tr>
-                        <td>112</td>
-                        <td>Piano</td>
-                        <td>INFORMATICA</td>
-                        <td>2333€</td>
-                        <td>13.50%</td>
-                        <td>2110€</td>
+                    <tr v-for="result in results">
+                        <td>{{result.id}}</td>
+                        <td>{{result.name}}</td>
+                        <td>{{result.category}}</td>
+                        <td>{{result.price}}€</td>
+                        <td>{{result.discount_rate}}%</td>
+                        <td>{{result.discount_price}}€</td>
                     </tr>
                 </table>
                 
@@ -49,17 +51,20 @@ export default {
                 search: '',
                 order: 'name'
             },
+            results: '',
             searchStarted: false
         }
     },
     methods: {
         search () {
             this.searchStarted = true;
+            let thisComponent = this;
 
             axios.post('api/search', {data: this.formData})
                 .then(response => {
                     console.log('risultati ricevuti');
                         console.log(response);
+                        thisComponent.results = response.data.results;
                 })
                 .catch(error => {
                     // code here when an upload is not valid

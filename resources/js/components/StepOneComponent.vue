@@ -10,7 +10,7 @@
                 </div>
                 <div v-else>
                     <label class="form-control-label mb-2"  for="input-file-import">Seleziona il file Excel da caricare:</label>
-                    <input type="file" class="form-control input-file " :class="{ ' is-invalid' : error.message }" id="input-file-import" name="file_import" ref="import_file"  @change="onFileChange">
+                    <input type="file" class="form-control input-custom " :class="{ ' is-invalid' : error.message }" id="input-file-import" name="file_import" ref="import_file"  @change="onFileChange">
                     <div v-if="error.message" class="invalid-feedback">
                     </div>
                     <button class="btn btn-primary" v-on:click="proceedAction">Salva e procedi</button>

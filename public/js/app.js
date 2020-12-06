@@ -2148,6 +2148,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2253,7 +2256,7 @@ var default_layout = "default";
   computed: {},
   data: function data() {
     return {
-      step: 1
+      step: 2
     };
   },
   methods: {
@@ -20008,7 +20011,7 @@ var render = function() {
               _vm._v(" "),
               _c("input", {
                 ref: "import_file",
-                staticClass: "form-control input-file ",
+                staticClass: "form-control input-custom ",
                 class: { " is-invalid": _vm.error.message },
                 attrs: {
                   type: "file",
@@ -20314,178 +20317,195 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container-fluid" }, [
     _c("div", { staticClass: "row" }, [
-      _c("h2", { staticClass: "text-center p-2 col-12" }, [
-        _vm._v("Applica sconto per categoria")
-      ]),
-      _vm._v(" "),
-      _vm.categories_loaded
-        ? _c("div", { staticClass: "col-10 offset-1" }, [
-            _vm.n_discount == 0
-              ? _c("div", [
-                  _c("h3", [
-                    _vm._v("Scegli il numero di categorie da scontare")
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.n_discount,
-                          expression: "n_discount"
-                        }
-                      ],
-                      on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.n_discount = $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        }
-                      }
-                    },
-                    [
-                      _c("option", { attrs: { value: "0" } }, [_vm._v("0")]),
-                      _vm._v(" "),
-                      _vm._l(_vm.n_categories, function(n, index) {
-                        return _c(
-                          "option",
-                          { domProps: { value: index + 1 } },
-                          [_vm._v(_vm._s(index + 1))]
-                        )
-                      })
-                    ],
-                    2
-                  )
-                ])
-              : _c(
-                  "div",
-                  _vm._l(_vm.n_discount, function(n, index) {
-                    return _c("div", { staticClass: "mt-2 mb-2" }, [
-                      _c("h5", [_vm._v("Categoria N°" + _vm._s(index + 1))]),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "d-flex justify-content-between" },
-                        [
-                          _c(
-                            "select",
-                            {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.formData.category_id[index],
-                                  expression: "formData.category_id[index]"
-                                }
-                              ],
-                              staticClass: "col-7",
-                              on: {
-                                change: function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.$set(
-                                    _vm.formData.category_id,
-                                    index,
-                                    $event.target.multiple
-                                      ? $$selectedVal
-                                      : $$selectedVal[0]
-                                  )
-                                }
-                              }
-                            },
-                            [
-                              _c("option", { attrs: { disabled: "" } }, [
-                                _vm._v("Scegli la categoria")
-                              ]),
-                              _vm._v(" "),
-                              _vm._l(_vm.categories_list, function(category) {
-                                return _c(
-                                  "option",
-                                  {
-                                    directives: [
-                                      {
-                                        name: "show",
-                                        rawName: "v-show",
-                                        value: _vm.isSelected(category.id),
-                                        expression: "isSelected(category.id)"
-                                      }
-                                    ],
-                                    domProps: { value: category.id }
-                                  },
-                                  [_vm._v(_vm._s(category.name))]
-                                )
+      _c("div", { staticClass: "form-wrapper col-10 offset-1 p-4" }, [
+        _c("h2", { staticClass: "mb-4" }, [
+          _vm._v("Applica sconto per categoria")
+        ]),
+        _vm._v(" "),
+        _vm.categories_loaded
+          ? _c("div", { staticClass: "col-10 offset-1" }, [
+              _vm.n_discount == 0
+                ? _c("div", [
+                    _c("label", { attrs: { for: "number-category" } }, [
+                      _vm._v("Scegli il numero di categorie da scontare")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.n_discount,
+                            expression: "n_discount"
+                          }
+                        ],
+                        staticClass: "input-custom",
+                        attrs: { id: "number-category" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
                               })
-                            ],
-                            2
-                          ),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-3 d-flex" }, [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model.number",
-                                  value: _vm.formData.category_rate[index],
-                                  expression: "formData.category_rate[index]",
-                                  modifiers: { number: true }
-                                }
-                              ],
-                              attrs: { type: "number", max: "99.99" },
-                              domProps: {
-                                value: _vm.formData.category_rate[index]
-                              },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.n_discount = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "0" } }, [_vm._v("0")]),
+                        _vm._v(" "),
+                        _vm._l(_vm.n_categories, function(n, index) {
+                          return _c(
+                            "option",
+                            { domProps: { value: index + 1 } },
+                            [_vm._v(_vm._s(index + 1))]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ])
+                : _c(
+                    "div",
+                    _vm._l(_vm.n_discount, function(n, index) {
+                      return _c("div", { staticClass: "mt-2 mb-2" }, [
+                        _c("h6", [_vm._v("Categoria N°" + _vm._s(index + 1))]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "d-flex justify-content-between" },
+                          [
+                            _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.formData.category_id[index],
+                                    expression: "formData.category_id[index]"
                                   }
-                                  _vm.$set(
-                                    _vm.formData.category_rate,
-                                    index,
-                                    _vm._n($event.target.value)
-                                  )
-                                },
-                                blur: function($event) {
-                                  return _vm.$forceUpdate()
+                                ],
+                                staticClass: "input-select w-50",
+                                on: {
+                                  change: function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.$set(
+                                      _vm.formData.category_id,
+                                      index,
+                                      $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    )
+                                  }
                                 }
-                              }
-                            }),
-                            _c("span", [_vm._v("%")])
-                          ])
-                        ]
-                      )
-                    ])
-                  }),
-                  0
-                ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-primary mt-2",
-                on: { click: _vm.processForm }
-              },
-              [_vm._v("Salva")]
+                              },
+                              [
+                                _c("option", { attrs: { disabled: "" } }, [
+                                  _vm._v("Scegli la categoria")
+                                ]),
+                                _vm._v(" "),
+                                _vm._l(_vm.categories_list, function(category) {
+                                  return _c(
+                                    "option",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "show",
+                                          rawName: "v-show",
+                                          value: _vm.isSelected(category.id),
+                                          expression: "isSelected(category.id)"
+                                        }
+                                      ],
+                                      domProps: { value: category.id }
+                                    },
+                                    [_vm._v(_vm._s(category.name))]
+                                  )
+                                })
+                              ],
+                              2
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "input-select d-flex align-items-center w-30"
+                              },
+                              [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model.number",
+                                      value: _vm.formData.category_rate[index],
+                                      expression:
+                                        "formData.category_rate[index]",
+                                      modifiers: { number: true }
+                                    }
+                                  ],
+                                  staticClass: "input-select",
+                                  attrs: { type: "number", max: "99.99" },
+                                  domProps: {
+                                    value: _vm.formData.category_rate[index]
+                                  },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.formData.category_rate,
+                                        index,
+                                        _vm._n($event.target.value)
+                                      )
+                                    },
+                                    blur: function($event) {
+                                      return _vm.$forceUpdate()
+                                    }
+                                  }
+                                }),
+                                _c("span", [_vm._v("%")])
+                              ]
+                            )
+                          ]
+                        )
+                      ])
+                    }),
+                    0
+                  ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary mt-2",
+                  on: { click: _vm.processForm }
+                },
+                [_vm._v("Salva")]
+              )
+            ])
+          : _c(
+              "div",
+              { staticClass: "p-2 mt-4 d-flex justify-content-center" },
+              [_vm._m(0)]
             )
-          ])
-        : _c("div", { staticClass: "text-center p-2 mt-2" }, [_vm._m(0)])
+      ])
     ])
   ])
 }

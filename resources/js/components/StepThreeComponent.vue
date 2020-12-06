@@ -19,7 +19,8 @@
         </div>
         <div>
             <div v-if="searchStarted">
-                <table>
+                <div v-if="searchCompleted">
+                    <table id="section-to-print">
                     <tr>
                         <th>Codice prodotto</th>
                         <th>Nome prodotto</th>
@@ -36,8 +37,14 @@
                         <td>{{result.discount_rate}}%</td>
                         <td>{{result.discount_price}}€</td>
                     </tr>
-                </table>
-                
+                    </table>
+                    <button @click="printPDF()">make pdf</button>
+                </div>
+                <div v-else>
+                    <div class="progress-spinner progress-spinner-active">
+                        <span class="sr-only">Caricamento...</span>
+                    </div>
+                </div>                
             </div>
         </div>
     </div>
@@ -52,19 +59,23 @@ export default {
                 order: 'name'
             },
             results: '',
-            searchStarted: false
+            searchStarted: false,
+            searchCompleted: false
         }
     },
     methods: {
+        printPDF() {
+            window.print();
+        },
         search () {
+            this.searchCompleted = false;
             this.searchStarted = true;
             let thisComponent = this;
 
             axios.post('api/search', {data: this.formData})
                 .then(response => {
-                    console.log('risultati ricevuti');
-                        console.log(response);
-                        thisComponent.results = response.data.results;
+                    thisComponent.searchCompleted = true;
+                    thisComponent.results = response.data.results;
                 })
                 .catch(error => {
                     // code here when an upload is not valid
@@ -76,7 +87,7 @@ export default {
         }
     },
     mounted() {
-        console.log("Init step 3");
+        
     }
 }
 </script>

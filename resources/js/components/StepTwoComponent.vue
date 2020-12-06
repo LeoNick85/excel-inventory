@@ -26,7 +26,11 @@
                 </div> 
                 <button class="btn btn-primary mt-2" @click="processForm">Salva</button>   
             </div>
-            <div v-else class="text-center p-2 mt-2">In caricamento</div>
+            <div v-else class="text-center p-2 mt-2">
+                <div class="progress-spinner progress-spinner-active">
+                    <span class="sr-only">Caricamento...</span>
+                </div>
+            </div>
         </div>        
     </div>
 </template>
@@ -61,7 +65,6 @@ export default {
             axios.post('api/category-list')
                 .then(response => {
                     if(response.status === 200) {
-                        console.log(response.data.categories_list);
                         thisComponent.categories_list = response.data.categories_list;
                         thisComponent.n_categories = thisComponent.categories_list.length;
                         thisComponent.categories_loaded = true;
@@ -78,8 +81,6 @@ export default {
             axios.post('api/category-update', {data: this.formData})
                 .then(response => {
                     if(response.status === 200) {
-                        console.log('form spedito');
-                        console.log(response);
                         this.$emit('step_forward', 3);
                     }
                 })
@@ -93,7 +94,6 @@ export default {
         }
     },
     mounted() {
-        console.log("Init step 2");
         this.loadingCategoriesList();
     }
 }

@@ -46,7 +46,7 @@ class ProductsController extends Controller
                 'price' => $value->price,
                 'category' => $value->category->name,
                 'discount_rate' => $value->category->discount_rate,
-                'discount_price' => ($value->price*(100-$value->category->discount_rate) /100)
+                'discount_price' => round(($value->price*(100-$value->category->discount_rate) /100), 2)
             ));
         };
 

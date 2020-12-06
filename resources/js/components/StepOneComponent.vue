@@ -2,7 +2,9 @@
     <div>
         <h2>Carica il file</h2>
         <div v-if="uploading">
-            File in caricamento
+            <div class="progress-spinner progress-spinner-active">
+                <span class="sr-only">Caricamento...</span>
+            </div>
         </div>
         <div v-else>
             <label class="form-control-label"  for="input-file-import">Scegli il file da caricare</label>
@@ -26,12 +28,10 @@ export default {
     methods: {
 		
         onFileChange(e) {
-            console.log('file cambiato');
             this.import_file = e.target.files[0];
 	    },
         proceedAction() {
             this.uploading = true;
-            console.log('bottone premuto');
             let formData = new FormData();
             formData.append('import_file', this.import_file);
 

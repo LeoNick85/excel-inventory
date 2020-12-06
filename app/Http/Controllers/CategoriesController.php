@@ -22,19 +22,16 @@ class CategoriesController extends Controller
     public function categoriesUpdate(Request $request)
     {
         $data = $request->input('data');
-        $test = 0;
 
         for ($i = 0; $i < count($data['category_id']); $i++) {
             $current_item = Category::find($data['category_id'][$i]);
             $current_item->discount_rate = $data['category_rate'][$i];
             $current_item->save();
-            $test++;
         };
 
         return response()->json(
             [
-                'message' => 'form delivered',
-                'received' => $test
+                'message' => 'categories delivered'
             ],
             200);
     }

@@ -1954,6 +1954,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1964,14 +1966,12 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     onFileChange: function onFileChange(e) {
-      console.log('file cambiato');
       this.import_file = e.target.files[0];
     },
     proceedAction: function proceedAction() {
       var _this = this;
 
       this.uploading = true;
-      console.log('bottone premuto');
       var formData = new FormData();
       formData.append('import_file', this.import_file);
       axios.post('api/upload', formData, {
@@ -2049,6 +2049,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2057,20 +2064,24 @@ __webpack_require__.r(__webpack_exports__);
         order: 'name'
       },
       results: '',
-      searchStarted: false
+      searchStarted: false,
+      searchCompleted: false
     };
   },
   methods: {
+    printPDF: function printPDF() {
+      window.print();
+    },
     search: function search() {
       var _this = this;
 
+      this.searchCompleted = false;
       this.searchStarted = true;
       var thisComponent = this;
       axios.post('api/search', {
         data: this.formData
       }).then(function (response) {
-        console.log('risultati ricevuti');
-        console.log(response);
+        thisComponent.searchCompleted = true;
         thisComponent.results = response.data.results;
       })["catch"](function (error) {
         // code here when an upload is not valid
@@ -2082,9 +2093,7 @@ __webpack_require__.r(__webpack_exports__);
       ;
     }
   },
-  mounted: function mounted() {
-    console.log("Init step 3");
-  }
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -2098,6 +2107,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -2161,7 +2174,6 @@ __webpack_require__.r(__webpack_exports__);
       var thisComponent = this;
       axios.post('api/category-list').then(function (response) {
         if (response.status === 200) {
-          console.log(response.data.categories_list);
           thisComponent.categories_list = response.data.categories_list;
           thisComponent.n_categories = thisComponent.categories_list.length;
           thisComponent.categories_loaded = true;
@@ -2180,9 +2192,6 @@ __webpack_require__.r(__webpack_exports__);
         data: this.formData
       }).then(function (response) {
         if (response.status === 200) {
-          console.log('form spedito');
-          console.log(response);
-
           _this2.$emit('step_forward', 3);
         }
       })["catch"](function (error) {
@@ -2196,7 +2205,6 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    console.log("Init step 2");
     this.loadingCategoriesList();
   }
 });
@@ -2241,7 +2249,7 @@ var default_layout = "default";
   computed: {},
   data: function data() {
     return {
-      step: 2
+      step: 1
     };
   },
   methods: {
@@ -19979,7 +19987,7 @@ var render = function() {
     _c("h2", [_vm._v("Carica il file")]),
     _vm._v(" "),
     _vm.uploading
-      ? _c("div", [_vm._v("\n        File in caricamento\n    ")])
+      ? _c("div", [_vm._m(0)])
       : _c("div", [
           _c(
             "label",
@@ -20017,7 +20025,18 @@ var render = function() {
         ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "progress-spinner progress-spinner-active" },
+      [_c("span", { staticClass: "sr-only" }, [_vm._v("Caricamento...")])]
+    )
+  }
+]
 render._withStripped = true
 
 
@@ -20183,29 +20202,50 @@ var render = function() {
     _c("div", [
       _vm.searchStarted
         ? _c("div", [
-            _c(
-              "table",
-              [
-                _vm._m(0),
-                _vm._v(" "),
-                _vm._l(_vm.results, function(result) {
-                  return _c("tr", [
-                    _c("td", [_vm._v(_vm._s(result.id))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(result.name))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(result.category))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(result.price) + "€")]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(result.discount_rate) + "%")]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(result.discount_price) + "€")])
-                  ])
-                })
-              ],
-              2
-            )
+            _vm.searchCompleted
+              ? _c("div", [
+                  _c(
+                    "table",
+                    { attrs: { id: "section-to-print" } },
+                    [
+                      _vm._m(0),
+                      _vm._v(" "),
+                      _vm._l(_vm.results, function(result) {
+                        return _c("tr", [
+                          _c("td", [_vm._v(_vm._s(result.id))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(result.name))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(result.category))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(result.price) + "€")]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(_vm._s(result.discount_rate) + "%")
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(_vm._s(result.discount_price) + "€")
+                          ])
+                        ])
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      on: {
+                        click: function($event) {
+                          return _vm.printPDF()
+                        }
+                      }
+                    },
+                    [_vm._v("make pdf")]
+                  )
+                ])
+              : _c("div", [_vm._m(1)])
           ])
         : _vm._e()
     ])
@@ -20229,6 +20269,16 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("Prezzo scontato")])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "progress-spinner progress-spinner-active" },
+      [_c("span", { staticClass: "sr-only" }, [_vm._v("Caricamento...")])]
+    )
   }
 ]
 render._withStripped = true
@@ -20425,13 +20475,22 @@ var render = function() {
               [_vm._v("Salva")]
             )
           ])
-        : _c("div", { staticClass: "text-center p-2 mt-2" }, [
-            _vm._v("In caricamento")
-          ])
+        : _c("div", { staticClass: "text-center p-2 mt-2" }, [_vm._m(0)])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "progress-spinner progress-spinner-active" },
+      [_c("span", { staticClass: "sr-only" }, [_vm._v("Caricamento...")])]
+    )
+  }
+]
 render._withStripped = true
 
 

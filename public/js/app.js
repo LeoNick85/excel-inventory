@@ -2260,7 +2260,7 @@ var default_layout = "default";
   computed: {},
   data: function data() {
     return {
-      step: 3
+      step: 1
     };
   },
   methods: {
@@ -19969,7 +19969,7 @@ var staticRenderFns = [
     return _c(
       "div",
       { staticClass: "col-12 p-4 d-flex justify-content-center header-blue" },
-      [_c("h1", [_vm._v("Calcolatore di sconti")])]
+      [_c("h1", [_vm._v("Gestione catalogo")])]
     )
   }
 ]
@@ -20161,9 +20161,14 @@ var render = function() {
               },
               domProps: { checked: _vm._q(_vm.formData.order, "price") },
               on: {
-                change: function($event) {
-                  return _vm.$set(_vm.formData, "order", "price")
-                }
+                change: [
+                  function($event) {
+                    return _vm.$set(_vm.formData, "order", "price")
+                  },
+                  function($event) {
+                    return _vm.search()
+                  }
+                ]
               }
             }),
             _vm._v(" "),
@@ -20189,9 +20194,14 @@ var render = function() {
                 checked: _vm._q(_vm.formData.order, "discount_rate")
               },
               on: {
-                change: function($event) {
-                  return _vm.$set(_vm.formData, "order", "discount_rate")
-                }
+                change: [
+                  function($event) {
+                    return _vm.$set(_vm.formData, "order", "discount_rate")
+                  },
+                  function($event) {
+                    return _vm.search()
+                  }
+                ]
               }
             }),
             _vm._v(" "),
@@ -20219,9 +20229,14 @@ var render = function() {
                 checked: _vm._q(_vm.formData.order, "discount_price")
               },
               on: {
-                change: function($event) {
-                  return _vm.$set(_vm.formData, "order", "discount_price")
-                }
+                change: [
+                  function($event) {
+                    return _vm.$set(_vm.formData, "order", "discount_price")
+                  },
+                  function($event) {
+                    return _vm.search()
+                  }
+                ]
               }
             }),
             _vm._v(" "),
@@ -20372,7 +20387,7 @@ var render = function() {
               _vm.n_discount == 0
                 ? _c("div", [
                     _c("label", { attrs: { for: "number-category" } }, [
-                      _vm._v("Scegli il numero di categorie da scontare")
+                      _vm._v("Scegli il numero di categorie da scontare: ")
                     ]),
                     _vm._v(" "),
                     _c(
@@ -20542,7 +20557,7 @@ var render = function() {
                   staticClass: "btn btn-primary mt-2",
                   on: { click: _vm.processForm }
                 },
-                [_vm._v("Salva")]
+                [_vm._v("Salva e prosegui")]
               )
             ])
           : _c(

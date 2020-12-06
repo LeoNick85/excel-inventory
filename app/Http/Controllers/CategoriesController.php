@@ -7,6 +7,7 @@ use App\Models\Category;
 
 class CategoriesController extends Controller
 {
+    //Respond full list of categories
     public function categoriesList(Request $request)
     {
         $categories_list = Category::all();
@@ -19,6 +20,7 @@ class CategoriesController extends Controller
             200);
     }
 
+    //Receive list of categories and relative discount rate and update data in database 
     public function categoriesUpdate(Request $request)
     {
         $data = $request->input('data');

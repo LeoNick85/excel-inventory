@@ -5,7 +5,7 @@
                 <h2 class="mb-4">Applica sconto per categoria</h2>
                 <div v-if="categories_loaded" class="col-10 offset-1">
                     <div v-if="n_discount == 0">
-                    <label for="number-category">Scegli il numero di categorie da scontare</label>
+                    <label for="number-category">Scegli il numero di categorie da scontare: </label>
                     <select id="number-category" class="input-custom" v-model="n_discount">
                         <option value="0">0</option>
                         <option v-for="(n, index) in n_categories" :value="index + 1">{{index + 1}}</option>
@@ -25,7 +25,7 @@
                             </div>                        
                         </div>
                     </div> 
-                <button class="btn btn-primary mt-2" @click="processForm">Salva</button>   
+                <button class="btn btn-primary mt-2" @click="processForm">Salva e prosegui</button>   
                 </div>
                 <div v-else class="p-2 mt-4 d-flex justify-content-center">
                     <div class="progress-spinner progress-spinner-active">

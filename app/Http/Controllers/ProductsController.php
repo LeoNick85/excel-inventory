@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 
 class ProductsController extends Controller
 {
+    //Import data from Excel
     public function import(Request $request)
     {
         $request->validate([
@@ -29,6 +30,7 @@ class ProductsController extends Controller
                                 200);
     }
 
+    //Search products by name or id and respond with list with custom order
     public function search(Request $request)
     {
         $data = $request->input('data');

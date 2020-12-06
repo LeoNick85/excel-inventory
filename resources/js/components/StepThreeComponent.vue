@@ -10,11 +10,11 @@
                         <legend>Ordina per:</legend>
                         <input type="radio" id="name" name="order" value="name" v-model="formData.order">
                         <label for="name">A-Z</label><br>
-                        <input type="radio" id="price" name="order" value="price" v-model="formData.order">
+                        <input type="radio" id="price" name="order" value="price" @change="search()" v-model="formData.order">
                         <label for="price">Prezzo</label><br>
-                        <input type="radio" id="discount_rate" name="order" value="discount_rate" v-model="formData.order">
+                        <input type="radio" id="discount_rate" name="order" @change="search()" value="discount_rate" v-model="formData.order">
                         <label for="discount_rate">Percentuale sconto</label><br>
-                        <input type="radio" id="discount_price" name="order" value="discount_price" v-model="formData.order">
+                        <input type="radio" id="discount_price" name="order" @change="search()" value="discount_price" v-model="formData.order">
                         <label for="discount_rate">Prezzo scontato</label>
                     </fieldset>
                     <button class="btn btn-primary" @click="search()">Avvia ricerca</button>

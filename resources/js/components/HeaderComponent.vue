@@ -1,5 +1,5 @@
 <template>
-    <header>
+    <header class="container-fluid">
         <div class="row">
             <div class="col-12 p-4 d-flex justify-content-center header-blue">
                 <h1>Calcolatore di sconti</h1>

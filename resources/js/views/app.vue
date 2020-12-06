@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div>
     <header-component :step="step"></header-component>
     <main>
         <step-one-component v-if="step == 1" v-on:step_forward="step_forward"></step-one-component>

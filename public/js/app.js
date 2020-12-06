@@ -1956,6 +1956,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -19909,7 +19913,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("header", [
+  return _c("header", { staticClass: "container-fluid" }, [
     _c("div", { staticClass: "row" }, [
       _vm._m(0),
       _vm._v(" "),
@@ -19983,46 +19987,52 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("h2", [_vm._v("Carica il file")]),
-    _vm._v(" "),
-    _vm.uploading
-      ? _c("div", [_vm._m(0)])
-      : _c("div", [
-          _c(
-            "label",
-            {
-              staticClass: "form-control-label",
-              attrs: { for: "input-file-import" }
-            },
-            [_vm._v("Scegli il file da caricare")]
-          ),
-          _vm._v(" "),
-          _c("input", {
-            ref: "import_file",
-            staticClass: "form-control",
-            class: { " is-invalid": _vm.error.message },
-            attrs: {
-              type: "file",
-              id: "input-file-import",
-              name: "file_import"
-            },
-            on: { change: _vm.onFileChange }
-          }),
-          _vm._v(" "),
-          _vm.error.message
-            ? _c("div", { staticClass: "invalid-feedback" })
-            : _vm._e(),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-primary",
-              on: { click: _vm.proceedAction }
-            },
-            [_vm._v("Salva e procedi")]
-          )
-        ])
+  return _c("div", { staticClass: "container-fluid" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "form-wrapper col-10 offset-1 p-4" }, [
+        _c("h2", { staticClass: "mb-4" }, [_vm._v("Carica il file")]),
+        _vm._v(" "),
+        _vm.uploading
+          ? _c("div", { staticClass: "d-flex justify-content-center" }, [
+              _vm._m(0)
+            ])
+          : _c("div", [
+              _c(
+                "label",
+                {
+                  staticClass: "form-control-label mb-2",
+                  attrs: { for: "input-file-import" }
+                },
+                [_vm._v("Seleziona il file Excel da caricare:")]
+              ),
+              _vm._v(" "),
+              _c("input", {
+                ref: "import_file",
+                staticClass: "form-control input-file ",
+                class: { " is-invalid": _vm.error.message },
+                attrs: {
+                  type: "file",
+                  id: "input-file-import",
+                  name: "file_import"
+                },
+                on: { change: _vm.onFileChange }
+              }),
+              _vm._v(" "),
+              _vm.error.message
+                ? _c("div", { staticClass: "invalid-feedback" })
+                : _vm._e(),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  on: { click: _vm.proceedAction }
+                },
+                [_vm._v("Salva e procedi")]
+              )
+            ])
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
@@ -20514,7 +20524,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container-fluid" },
     [
       _c("header-component", { attrs: { step: _vm.step } }),
       _vm._v(" "),

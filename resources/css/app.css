@@ -42,6 +42,32 @@ ul {
     list-style: none;
 }
 
+th, td {
+  padding: 6px;
+  border: 1px solid gray;
+}
+
+.table-alt-bg {
+  background-color: #e9e9e6;
+}
+
+.table-responsive {
+  font-size:7px;
+  margin: 30px auto;
+}
+
+@media (min-width: 576px) {
+  .table-responsive {
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 992px) {
+  .table-responsive {
+    font-size: 22px;
+  }
+}
+
 @media print {
     body * {
       visibility: hidden;

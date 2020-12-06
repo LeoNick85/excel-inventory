@@ -2060,6 +2060,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2256,7 +2260,7 @@ var default_layout = "default";
   computed: {},
   data: function data() {
     return {
-      step: 2
+      step: 3
     };
   },
   methods: {
@@ -19951,7 +19955,7 @@ var render = function() {
                 ? "col-4 p-3 text-center progress-active-blue"
                 : "col-4 p-3 text-center progress-inactive-blue"
           },
-          [_vm._v("3. Risultati")]
+          [_vm._v("3. Cerca prodotti")]
         )
       ])
     ])
@@ -20071,196 +20075,234 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "p-5" }, [
-    _c("h2", [_vm._v("Risultati")]),
-    _vm._v(" "),
-    _c("div", [
-      _c("label", { attrs: { for: "search" } }, [_vm._v("Cerca prodotto")]),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.formData.search,
-            expression: "formData.search"
-          }
-        ],
-        attrs: { type: "text", name: "search" },
-        domProps: { value: _vm.formData.search },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.formData, "search", $event.target.value)
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c("fieldset", [
-        _c("legend", [_vm._v("Ordina per:")]),
+  return _c("div", { staticClass: "container-fluid" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "form-wrapper col-10 offset-1 p-4" }, [
+        _c("h2", { staticClass: "mb-4" }, [_vm._v("Cerca prodotti")]),
         _vm._v(" "),
-        _c("input", {
-          directives: [
+        _c("div", [
+          _c("label", { attrs: { for: "search" } }, [
+            _vm._v("Cerca prodotto per nome o per codice prodotto:")
+          ]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.formData.search,
+                expression: "formData.search"
+              }
+            ],
+            attrs: { type: "text", name: "search" },
+            domProps: { value: _vm.formData.search },
+            on: {
+              keyup: function($event) {
+                if (
+                  !$event.type.indexOf("key") &&
+                  _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                ) {
+                  return null
+                }
+                return _vm.search()
+              },
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.formData, "search", $event.target.value)
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("fieldset", [
+            _c("legend", [_vm._v("Ordina per:")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.formData.order,
+                  expression: "formData.order"
+                }
+              ],
+              attrs: {
+                type: "radio",
+                id: "name",
+                name: "order",
+                value: "name"
+              },
+              domProps: { checked: _vm._q(_vm.formData.order, "name") },
+              on: {
+                change: function($event) {
+                  return _vm.$set(_vm.formData, "order", "name")
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("label", { attrs: { for: "name" } }, [_vm._v("A-Z")]),
+            _c("br"),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.formData.order,
+                  expression: "formData.order"
+                }
+              ],
+              attrs: {
+                type: "radio",
+                id: "price",
+                name: "order",
+                value: "price"
+              },
+              domProps: { checked: _vm._q(_vm.formData.order, "price") },
+              on: {
+                change: function($event) {
+                  return _vm.$set(_vm.formData, "order", "price")
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("label", { attrs: { for: "price" } }, [_vm._v("Prezzo")]),
+            _c("br"),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.formData.order,
+                  expression: "formData.order"
+                }
+              ],
+              attrs: {
+                type: "radio",
+                id: "discount_rate",
+                name: "order",
+                value: "discount_rate"
+              },
+              domProps: {
+                checked: _vm._q(_vm.formData.order, "discount_rate")
+              },
+              on: {
+                change: function($event) {
+                  return _vm.$set(_vm.formData, "order", "discount_rate")
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("label", { attrs: { for: "discount_rate" } }, [
+              _vm._v("Percentuale sconto")
+            ]),
+            _c("br"),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.formData.order,
+                  expression: "formData.order"
+                }
+              ],
+              attrs: {
+                type: "radio",
+                id: "discount_price",
+                name: "order",
+                value: "discount_price"
+              },
+              domProps: {
+                checked: _vm._q(_vm.formData.order, "discount_price")
+              },
+              on: {
+                change: function($event) {
+                  return _vm.$set(_vm.formData, "order", "discount_price")
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("label", { attrs: { for: "discount_rate" } }, [
+              _vm._v("Prezzo scontato")
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
             {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.formData.order,
-              expression: "formData.order"
-            }
-          ],
-          attrs: { type: "radio", id: "name", name: "order", value: "name" },
-          domProps: { checked: _vm._q(_vm.formData.order, "name") },
-          on: {
-            change: function($event) {
-              return _vm.$set(_vm.formData, "order", "name")
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("label", { attrs: { for: "name" } }, [_vm._v("A-Z")]),
-        _c("br"),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.formData.order,
-              expression: "formData.order"
-            }
-          ],
-          attrs: { type: "radio", id: "price", name: "order", value: "price" },
-          domProps: { checked: _vm._q(_vm.formData.order, "price") },
-          on: {
-            change: function($event) {
-              return _vm.$set(_vm.formData, "order", "price")
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("label", { attrs: { for: "price" } }, [_vm._v("Prezzo")]),
-        _c("br"),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.formData.order,
-              expression: "formData.order"
-            }
-          ],
-          attrs: {
-            type: "radio",
-            id: "discount_rate",
-            name: "order",
-            value: "discount_rate"
-          },
-          domProps: { checked: _vm._q(_vm.formData.order, "discount_rate") },
-          on: {
-            change: function($event) {
-              return _vm.$set(_vm.formData, "order", "discount_rate")
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("label", { attrs: { for: "discount_rate" } }, [
-          _vm._v("Percentuale sconto")
+              staticClass: "btn btn-primary",
+              on: {
+                click: function($event) {
+                  return _vm.search()
+                }
+              }
+            },
+            [_vm._v("Avvia ricerca")]
+          )
         ]),
         _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.formData.order,
-              expression: "formData.order"
-            }
-          ],
-          attrs: {
-            type: "radio",
-            id: "discount_price",
-            name: "order",
-            value: "discount_price"
-          },
-          domProps: { checked: _vm._q(_vm.formData.order, "discount_price") },
-          on: {
-            change: function($event) {
-              return _vm.$set(_vm.formData, "order", "discount_price")
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("label", { attrs: { for: "discount_rate" } }, [
-          _vm._v("Prezzo scontato")
-        ])
-      ]),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary",
-          on: {
-            click: function($event) {
-              return _vm.search()
-            }
-          }
-        },
-        [_vm._v("Avvia ricerca")]
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", [
-      _vm.searchStarted
-        ? _c("div", [
-            _vm.searchCompleted
-              ? _c("div", [
-                  _c(
-                    "table",
-                    { attrs: { id: "section-to-print" } },
-                    [
-                      _vm._m(0),
+        _c("div", [
+          _vm.searchStarted
+            ? _c("div", [
+                _vm.searchCompleted
+                  ? _c("div", [
+                      _c(
+                        "table",
+                        {
+                          staticClass: "table-responsive",
+                          attrs: { id: "section-to-print" }
+                        },
+                        [
+                          _vm._m(0),
+                          _vm._v(" "),
+                          _vm._l(_vm.results, function(result, index) {
+                            return _c(
+                              "tr",
+                              { class: index % 2 == 0 ? "table-alt-bg" : "" },
+                              [
+                                _c("td", [_vm._v(_vm._s(result.id))]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(result.name))]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(result.category))]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(result.price) + "€")]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(_vm._s(result.discount_rate) + "%")
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(_vm._s(result.discount_price) + "€")
+                                ])
+                              ]
+                            )
+                          })
+                        ],
+                        2
+                      ),
                       _vm._v(" "),
-                      _vm._l(_vm.results, function(result) {
-                        return _c("tr", [
-                          _c("td", [_vm._v(_vm._s(result.id))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(result.name))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(result.category))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(result.price) + "€")]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(_vm._s(result.discount_rate) + "%")
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(_vm._s(result.discount_price) + "€")
-                          ])
-                        ])
-                      })
-                    ],
-                    2
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      on: {
-                        click: function($event) {
-                          return _vm.printPDF()
-                        }
-                      }
-                    },
-                    [_vm._v("make pdf")]
-                  )
-                ])
-              : _c("div", [_vm._m(1)])
-          ])
-        : _vm._e()
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-secondary",
+                          on: {
+                            click: function($event) {
+                              return _vm.printPDF()
+                            }
+                          }
+                        },
+                        [_vm._v("Salva come PDF")]
+                      )
+                    ])
+                  : _c("div", [_vm._m(1)])
+              ])
+            : _vm._e()
+        ])
+      ])
     ])
   ])
 }
@@ -20289,7 +20331,10 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "div",
-      { staticClass: "progress-spinner progress-spinner-active" },
+      {
+        staticClass:
+          "progress-spinner progress-spinner-active mt-5 d-flex justify-content-center"
+      },
       [_c("span", { staticClass: "sr-only" }, [_vm._v("Caricamento...")])]
     )
   }

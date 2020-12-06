@@ -26,7 +26,7 @@ export default {
   computed: {},
   data() {
       return {
-          step: 2
+          step: 3
       }
   },
   methods: {
